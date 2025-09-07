@@ -232,6 +232,9 @@ wait_for_url() {
   done
 }
 
+# Make a request to the api to generate the certificate
+curl -s -o /dev/null "https://api.${DOMAIN}"
+
 # Wait for the Stormkit dashboard URL to return HTTP 200
 wait_for_url "https://stormkit.${DOMAIN}"
 
