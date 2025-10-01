@@ -199,6 +199,12 @@ DOMAIN=""
 # Setup the environment variable for the Hosting Service.
 setup_domain() {
   IP4=$(curl -s -4 ifconfig.me | tr '.' '-')
+
+  # Check if IP4 is a valid IP format (4 octets, each 0-255)
+  if ! echo "$IP4" | grep -qE '^([0-9]{1,3}-){3}[0-9]{1,3}$'; then
+    IP4=$(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+" | tr '.' '-')
+  fi
+
   DOMAIN="$IP4.sslip.io"
   update_env_var_in_env_file STORMKIT_DOMAIN $DOMAIN
 }
