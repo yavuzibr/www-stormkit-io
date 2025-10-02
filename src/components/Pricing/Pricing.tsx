@@ -102,7 +102,10 @@ export default function Pricing() {
               if (newMode) setMode(newMode as Mode)
             }}
             aria-label="Platform"
-            sx={{ mx: { xs: 0, md: 'auto' }, alignSelf: { xs: 'flex-start', md: 'center' } }}
+            sx={{
+              mx: { xs: 0, md: 'auto' },
+              alignSelf: { xs: 'flex-start', md: 'center' },
+            }}
           >
             <ToggleButton value="cloud" sx={{ cursor: 'pointer' }}>
               Cloud
@@ -128,7 +131,9 @@ export default function Pricing() {
             sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}
           />
         </Divider>
-        <Box sx={{ display: 'flex', mt: 6, maxWidth: '100%', overflow: 'hidden' }}>
+        <Box
+          sx={{ display: 'flex', mt: 6, maxWidth: '100%', overflow: 'hidden' }}
+        >
           <Box
             sx={{
               width: '100%',
