@@ -27,6 +27,7 @@ curl -sSL https://www.stormkit.io/install.sh | sh
 - `Darwin (Sonoma)`
 - `Fedora (39, 40)`
 - `Debian (11, 12)`
+- `Rocky Linux (10)`
 
 If you find an issue with the script, please [submit it here](https://github.com/stormkit-io/www-stormkit-io/issues).
 
