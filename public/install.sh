@@ -62,7 +62,13 @@ elif [ "$(uname -s | cut -c1-5)" = "Linux" ]; then
   if command_exists docker; then
     echo "Docker already installed"
   else
-    if grep -q "Fedora" /etc/os-release; then
+    if grep -q "Rocky" /etc/os-release; then
+      # See sudo https://docs.rockylinux.org/10/gemstones/containers/docker/
+      sudo dnf -y install dnf-plugins-core
+      sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      sudo systemctl start docker
+    elif grep -q "Fedora" /etc/os-release; then
       # See https://docs.docker.com/engine/install/fedora/
       sudo dnf -y install dnf-plugins-core
       sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
