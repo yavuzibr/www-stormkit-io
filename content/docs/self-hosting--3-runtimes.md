@@ -54,7 +54,7 @@ Note: You have to be an administrator to access this area.
 
 ### Auto Install
 
-When **Auto install** is enabled, Stormkit automatically installs required runtimes during deployment based on your app’s version configuration files (e.g., `mise.toml`, `.tool-versions`, `.nvmrc`, `.node-version`).
+When **Auto install** is enabled, Stormkit automatically installs required runtimes during deployment based on your app’s version configuration files.
 
 - **Enabled**: Runtimes will be installed automatically if missing.
 - **Disabled**: Only pre-installed runtimes will be available.
@@ -63,6 +63,15 @@ To toggle:
 
 1. Use the switch under **Auto install**.
 2. Save your changes.
+
+The following files are recognized automatically:
+
+| Runtime | Files                                 |
+| ------- | ------------------------------------- |
+| go      | `.go-version`                         |
+| node    | `.nvmrc`, `.node-version`             |
+| python  | `.python-version`, `.python-versions` |
+| ruby    | `.ruby-version`, `Gemfile`            |
 
 ## Mise Runtime Manager
 
