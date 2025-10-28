@@ -204,6 +204,38 @@ DOMAIN=""
 
 # Setup the environment variable for the Hosting Service.
 setup_domain() {
+  while true; do
+    # Ask the user if they have a custom domain
+    printf "${PURPLE}Do you have a custom domain you'd like to use?${NC}\n"
+    printf "${GRAY}Enter your domain (e.g., myapp.example.com) or press Enter to use auto-generated domain: ${NC}"
+    read -r custom_domain </dev/tty
+
+    if [ -z "$custom_domain" ]; then
+      # User pressed Enter without entering a domain, use auto-generated
+      break
+    fi
+
+    # Validate the domain format
+    if echo "$custom_domain" | grep -qE '^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'; then
+      # Check if domain length is reasonable (max 253 characters)
+      if [ ${#custom_domain} -le 253 ]; then
+        DOMAIN="$custom_domain"
+        printf "${GREEN}Using custom domain: $DOMAIN${NC}\n"
+        update_env_var_in_env_file STORMKIT_DOMAIN "$DOMAIN"
+        return
+      else
+        printf "${GRAY}Domain too long (max 253 characters). Please try again.${NC}\n"
+        echo
+      fi
+    else
+      printf "${GRAY}Invalid domain format. Please enter a valid domain (e.g., myapp.example.com) or press Enter to skip.${NC}\n"
+      echo
+    fi
+  done
+
+  # Fallback to IP-based domain
+  printf "${GRAY}Generating auto-generated domain...${NC}\n"
+
   IP4=$(curl -s -4 ifconfig.me | tr '.' '-')
 
   # Check if IP4 is a valid IP format (4 octets, each 0-255)
@@ -212,7 +244,9 @@ setup_domain() {
   fi
 
   DOMAIN="$IP4.sslip.io"
-  update_env_var_in_env_file STORMKIT_DOMAIN $DOMAIN
+  printf "${GREEN}Using auto-generated domain: $DOMAIN${NC}\n"
+
+  update_env_var_in_env_file STORMKIT_DOMAIN "$DOMAIN"
 }
 
 # For now keep this file here - we need to improve the docker swarm setup
